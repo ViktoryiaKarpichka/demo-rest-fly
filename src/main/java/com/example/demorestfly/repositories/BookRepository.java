@@ -1,6 +1,6 @@
-package com.tms.demospringboot.repositories;
+package com.example.demorestfly.repositories;
 
-import com.tms.demospringboot.entities.Book;
+import com.example.demorestfly.entities.Book;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

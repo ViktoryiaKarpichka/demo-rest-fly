@@ -1,4 +1,4 @@
-package com.tms.demospringboot.entities;
+package com.example.demorestfly.entities;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 

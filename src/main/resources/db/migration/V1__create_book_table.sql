@@ -4,4 +4,3 @@ create table books
     name        varchar,
     description varchar
 );
-

@@ -1,17 +1,17 @@
-package com.tms.demospringboot.services;
+package com.example.demorestfly.services;
 
-import com.tms.demospringboot.entities.Book;
+import com.example.demorestfly.dto.BookDto;
+import com.example.demorestfly.entities.Book;
 import java.util.List;
-import java.util.Optional;
 
 public interface BookService {
-    List<Book> getBooks();
+    List<BookDto> getBooks();
 
-    Optional<Book> getBookById(Long id);
+    BookDto getBookById(Long id);
 
-    void saveOrUpdate(Book book);
+    BookDto addBook(BookDto bookDto);
 
-    void update(Long id, Book book);
+    BookDto update(Long id, BookDto bookDto);
 
     void updateBookName(Long id, String name);
 

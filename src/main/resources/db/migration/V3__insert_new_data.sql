@@ -1,2 +1,2 @@
-insert into books(name, description) VALUES ('sdf3', 'sdf3');
+insert into books(name, description) VALUES ('book2', 'desc2');
 

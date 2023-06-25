@@ -1,8 +1,12 @@
-package com.tms.demospringboot.services.impl;
+package com.example.demorestfly.services.impl;
 
-import com.tms.demospringboot.entities.Book;
-import com.tms.demospringboot.repositories.BookRepository;
-import com.tms.demospringboot.services.BookService;
+import com.example.demorestfly.dto.BookDto;
+import com.example.demorestfly.entities.Book;
+import com.example.demorestfly.exception.BookNotFound;
+import com.example.demorestfly.exception.NotFoundException;
+import com.example.demorestfly.mapper.BookMapper;
+import com.example.demorestfly.repositories.BookRepository;
+import com.example.demorestfly.services.BookService;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -10,32 +14,41 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepository;
+    private final BookMapper bookMapper;
+
 
     @Override
-    public List<Book> getBooks() {
-        return bookRepository.findAll();
+    public List<BookDto> getBooks() {
+        List<Book> dbBooks = bookRepository.findAll();
+        return bookMapper.toDto(dbBooks);
     }
 
     @Override
-    public Optional<Book> getBookById(Long id) {
-        return bookRepository.findById(id);
+    public BookDto getBookById(Long id) {
+        return bookMapper.toDto(bookRepository.findById(id).orElseThrow(BookNotFound::new));
     }
 
     @Override
-    public void saveOrUpdate(Book book) {
-        bookRepository.save(book);
+    public BookDto addBook(BookDto bookDto) {
+        Book book = bookMapper.toEntity(bookDto);
+        book = bookRepository.save(book);
+        return Optional.ofNullable(bookMapper.toDto(book)).orElseThrow(NotFoundException::new);
     }
 
+
     @Override
-    @Transactional
-    public void update(Long id, Book book) {
+    public BookDto update(Long id, BookDto bookDto) {
+        Book book = bookMapper.toEntity(bookDto);
         Book bookDb = bookRepository.findById(id)
-                                    .orElseThrow(RuntimeException::new);
+                                    .orElseThrow(BookNotFound::new);
         bookDb.setName(book.getName());
+        bookDb.setDescription(book.getDescription());
+        return bookMapper.toDto(bookDb);
     }
 
     @Override
@@ -51,6 +64,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void deleteById(Long id) {
-        bookRepository.deleteById(id);
+        Book book = bookRepository.findById(id).orElseThrow(NotFoundException::new);
+        bookRepository.deleteById(book.getId());
     }
+
 }
