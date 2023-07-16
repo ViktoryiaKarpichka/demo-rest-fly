@@ -108,7 +108,7 @@ public class BookController {
     public void updateBookName(@PathVariable("book_id") Long id, @PathVariable("book_name") String name) {
         bookService.updateBookName(id, name);
     }
-
+    @GetMapping("/{description}")
     List<Book> findByParams(@PathVariable("description") String description) {
         return bookService.findByParams(description);
     }
