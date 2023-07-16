@@ -109,10 +109,6 @@ public class BookController {
         bookService.updateBookName(id, name);
     }
 
-//Если я оставляю этот метод, то не работает метод getOneBookById. Он не понимает какой метод выбрать IllegalStateException
-// Как можно это решить, чтоб оба работали
-    //И еще вопрос, методы, которые void, нужно тоже переписать с responseEntity или можно так оставить(если да,то как переписать)
-    @GetMapping("/{description}")
     List<Book> findByParams(@PathVariable("description") String description) {
         return bookService.findByParams(description);
     }
