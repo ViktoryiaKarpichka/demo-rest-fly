@@ -108,6 +108,8 @@ public class BookController {
     public void updateBookName(@PathVariable("book_id") Long id, @PathVariable("book_name") String name) {
         bookService.updateBookName(id, name);
     }
+    //Если я оставляю этот метод, то не работает метод getOneBookById. Он не понимает какой метод выбрать IllegalStateException
+// Как можно это решить, чтоб оба работали
     @GetMapping("/{description}")
     List<Book> findByParams(@PathVariable("description") String description) {
         return bookService.findByParams(description);
