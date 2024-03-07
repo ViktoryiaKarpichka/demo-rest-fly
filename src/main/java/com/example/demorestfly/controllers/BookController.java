@@ -1,7 +1,5 @@
 package com.example.demorestfly.controllers;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-
 import com.example.demorestfly.dto.BookDto;
 import com.example.demorestfly.entities.Book;
 import com.example.demorestfly.model.ExceptionResponse;
@@ -13,17 +11,13 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Min;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Tag(name = "Book", description = "Book management APIs")
 @RestController
@@ -38,7 +32,6 @@ public class BookController {
             description = "Find all Books in DB with name and description.",
             tags = "get")
     @ApiResponses({
-
             @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = BookDto.class), mediaType = APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "404", content = {@Content(schema = @Schema(implementation = ExceptionResponse.class), mediaType = APPLICATION_JSON_VALUE)}),
             @ApiResponse(responseCode = "500", content = {@Content(schema = @Schema(implementation = ExceptionResponse.class), mediaType = APPLICATION_JSON_VALUE)})})
@@ -63,8 +56,8 @@ public class BookController {
     }
 
     @Operation(
-            summary = "Create a Book by Id",
-            description = "Create a Book object by specifying its id.",
+            summary = "Create a Book",
+            description = "Create a Book object",
             tags = "post")
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = {@Content(schema = @Schema(implementation = BookDto.class), mediaType = APPLICATION_JSON_VALUE)}),
@@ -108,9 +101,8 @@ public class BookController {
     public void updateBookName(@PathVariable("book_id") Long id, @PathVariable("book_name") String name) {
         bookService.updateBookName(id, name);
     }
-    //Если я оставляю этот метод, то не работает метод getOneBookById. Он не понимает какой метод выбрать IllegalStateException
-// Как можно это решить, чтоб оба работали
-    @GetMapping("/{description}")
+
+    @GetMapping("/param/{description}")
     List<Book> findByParams(@PathVariable("description") String description) {
         return bookService.findByParams(description);
     }
